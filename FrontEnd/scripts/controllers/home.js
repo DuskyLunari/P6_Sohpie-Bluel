@@ -3,6 +3,7 @@ import { getFilters, getWorks } from "../services/api.js";
 const works = await getWorks();
 const filters = await getFilters();
 
+
 // add element on first position of the array
 filters.unshift({
     id: 0,
@@ -19,26 +20,25 @@ function filtersDisplay(filtersBtnDisplay) {
     for (let i = 0; i < filtersBtnDisplay.length; i++) {
         const btn = document.createElement("button");
         categoriesContainer.append(btn);
-        btn.classList.add("button")
+        btn.classList.add("button");
         btn.innerText = filtersBtnDisplay[i].name;
 
         // default the "all" filter set as active on init
-        document.getElementsByClassName("button")[0].classList.add("active");
-
+        if (i == 0) {
+            btn.classList.add("active");   
+        }
+        
         // create action on click of the element
         btn.addEventListener("click", (e) => {
+            //check if active is already attributed, if yes remove previous iteration before atttributing it to the new one
+            document.querySelector(".active")?.classList.remove("active");
+            btn.classList.add("active");
             if (filtersBtnDisplay[i].id == 0) {
                 galleryDisplay(works);
-                //check if active is already attributed, if yes remove previous iteration before atttributing it to the new one
-                document.querySelector(".active")?.classList.remove("active");
-                btn.classList.add("active");
             } else {
                 // filter data and stock it on an array to call
                 const filteredWorks = works.filter((work) => filtersBtnDisplay[i].id == work.categoryId)
                 galleryDisplay(filteredWorks);
-                //check if active is already attributed, if yes remove previous iteration before atttributing it to the new one
-                document.querySelector(".active")?.classList.remove("active");
-                btn.classList.add("active");
             }
         })
     }
@@ -47,6 +47,7 @@ function filtersDisplay(filtersBtnDisplay) {
 // handles the gallery display for the image & caption
 function galleryDisplay(worksDisplay) {
     const galleryContainer = document.querySelector(".gallery");
+    // empty gallery before displaying again
     galleryContainer.innerHTML = "";
 
     for (let i = 0; i < worksDisplay.length; i++) {
