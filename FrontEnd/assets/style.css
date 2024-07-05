@@ -238,7 +238,6 @@ li a:hover {
 
 input[type="submit"]{
 	font-family: 'Syne';
-	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
 	margin : 2em auto ;
@@ -246,6 +245,23 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 	cursor: pointer;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.error-login {
+	display: flex;
+	justify-content: center;
+	color: white;
+	font-size: 14px;
+	font-family: 'Syne';
+}
+
+.error-login i, .error-login span {
+	padding: 7px;
+	background-color: rgb(212, 21, 21);
 }
 
 footer nav ul {
