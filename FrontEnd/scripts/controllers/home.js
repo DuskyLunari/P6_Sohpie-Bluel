@@ -2,7 +2,7 @@ import { getFilters, getWorks } from "../services/api.js";
 
 const works = await getWorks();
 const filters = await getFilters();
-
+const categoriesContainer = document.querySelector(".filters");
 
 // add element on first position of the array
 filters.unshift({
@@ -10,13 +10,28 @@ filters.unshift({
     name: "Tous"
 })
 
+const token = localStorage.getItem("token");
+if (token) {
+    const editing = document.getElementById("editing");
+    editing.classList.remove("hidden");
+    const modify = document.querySelector("div.modify");
+    modify.classList.remove("hidden");
+    categoriesContainer.classList.add("hidden");
+    const login = document.querySelector(".login");
+    login.innerText = "logout";
+    login.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        window.location.reload();
+    })
+}
+
 // initialize by injecting the data from the API
 galleryDisplay(works);
 filtersDisplay(filters);
 
 // handles the creation of the filter buttons & their application via the API data
 function filtersDisplay(filtersBtnDisplay) {
-    const categoriesContainer = document.querySelector(".filters");
     for (let i = 0; i < filtersBtnDisplay.length; i++) {
         const btn = document.createElement("button");
         categoriesContainer.append(btn);
