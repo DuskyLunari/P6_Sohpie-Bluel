@@ -1,6 +1,6 @@
 import { getFilters, getWorks } from "../services/api.js";
 
-const works = await getWorks();
+export const works = await getWorks();
 const filters = await getFilters();
 const categoriesContainer = document.querySelector(".filters");
 
@@ -12,6 +12,7 @@ filters.unshift({
 
 const token = localStorage.getItem("token");
 if (token) {
+    // making content appear or disappear to adapt the page
     const editing = document.getElementById("editing");
     editing.classList.remove("hidden");
     const modify = document.querySelector("div.modify");
@@ -19,6 +20,7 @@ if (token) {
     categoriesContainer.classList.add("hidden");
     const login = document.querySelector(".login");
     login.innerText = "logout";
+    // allowing to logout
     login.addEventListener("click", (e) => {
         e.preventDefault();
         localStorage.removeItem("token");
@@ -67,6 +69,7 @@ function galleryDisplay(worksDisplay) {
 
     for (let i = 0; i < worksDisplay.length; i++) {
         const figure = document.createElement("figure");
+        figure.id = "work-gallery-" + worksDisplay[i].id;
         galleryContainer.append(figure);
 
         // creating the img inside figure

@@ -21,3 +21,18 @@ export async function login(body) {
     const userInfo = await responseLogin.json();
     return userInfo; 
 }
+
+export async function deleteWork(id) {
+    const responseDelete = await fetch(`http://localhost:5678/api/works/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+        }
+    });
+
+    if (!responseDelete.ok) {
+        const errorMessage = await responseDelete.text();
+        throw new Error(errorMessage);
+    }
+    return;
+}

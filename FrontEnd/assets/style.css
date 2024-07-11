@@ -170,6 +170,7 @@ li a:hover {
 	margin-bottom: 30px;
 	font-family: "Work Sans";
 	font-size: 14px;
+	cursor: pointer;
 }
 
 .filters {
@@ -301,3 +302,92 @@ footer nav ul {
 	margin: 2em
 }
 
+/* Modal section */
+
+#modal {
+	border: none;
+	border-radius: 5px;
+}
+
+#gallery-modal {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+}
+
+#gallery-modal h2 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 35px;
+}
+
+#close-modal {
+	position: absolute;
+	right: 10px;
+	top: 5px;
+}
+
+#close-modal i {
+	font-weight: 700;
+	font-size: 20px;
+}
+
+#gallery-content {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-column-gap: 15px;
+	grid-row-gap: 40px;
+	padding-inline: 10% 10%;
+}
+
+.image-modal img {
+	width: 100%;
+	height: 105px;
+	object-fit: cover;
+}
+
+.image-modal {
+	position: relative;
+}
+
+.image-modal i {
+	font-size: 9px;
+}
+
+.icon-container {
+	background-color: black;
+	color: white;
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	right: 4px;
+	top: 4px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+#gallery-modal hr {
+	width: 75%;
+	color: grey;
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+#gallery-modal button {
+	padding: 9px 49px 9px 49px;
+	border-radius: 60px;
+	border: none;
+	font-size: 16px;
+	font-family: Syne;
+	font-weight: 700;
+	background-color: #1D6154;
+	color: white;
+	cursor: pointer;
+	margin-bottom: 30px;
+}
