@@ -19,20 +19,25 @@ export async function login(body) {
         }
     })
     const userInfo = await responseLogin.json();
-    return userInfo; 
+    return userInfo;
 }
 
 export async function deleteWork(id) {
     const responseDelete = await fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
-        headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
-        }
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+    });
+    return;
+}
+
+export async function addWork(formData) {
+    const responseAddWork = await fetch("http://localhost:5678/api/works", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        body: formData
     });
 
-    if (!responseDelete.ok) {
-        const errorMessage = await responseDelete.text();
-        throw new Error(errorMessage);
-    }
-    return;
+    // debugging
+    console.log('API Response:', responseAddWork);
+    return responseAddWork;
 }

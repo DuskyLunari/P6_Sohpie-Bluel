@@ -89,18 +89,35 @@
 			</div>
 			<div id="image-modal" class="hidden">
 				<div id="modal-nav">
-					<i class="fa-solid fa-arrow-left"></i>
-					<i class="fa-solid fa-xmark"></i>
+					<i id="back-initial-modal" class="fa-solid fa-arrow-left"></i>
+					<i id ="close-modal2" class="fa-solid fa-xmark"></i>
 				</div>
 				<h2>Ajout Photo</h2>
-				<div id="image-modal-content">
+				<div class="img-modal-background">
+					<img id ="img-preview" class="hidden" src="" alt="image icon"></img>
+					<i id="img-preview-modal" class="fa-regular fa-image"></i>
+					<div id="img-upload-container" class="">
+						<label for="img-upload" class="file-button">+ Ajouter photo</label>
+						<input type="file" id="img-upload" class="image-upload" accept=".jpg, .png"></input>
+						<span>jpg, png : 4mo max</span>
+					</div>
 				</div>
-				<hr>
-				<button>Valider</button>
+				<form class="form-img-container">
+					<label for="title">Titre</label>
+					<input type="title" value="" name="title" id="title">
+					<label for="id-select">Catégories</label>
+					<select id="id-select">
+						<option value=""></option>
+						<option value="1">Objets</option>
+						<option value="2">Appartements</option>
+						<option value="3">Hôtels & Restaurants</option>
+					</select>
+					<hr>
+					<input type="submit" id="modal-send" class="modal-send" value="Valider" disabled="false"></input>
+				</form>
 			</div>
 		</dialog>
 	</main>
-
 	<footer>
 		<nav>
 			<ul>
@@ -109,5 +126,4 @@
 		</nav>
 	</footer>
 </body>
-
 </html>
