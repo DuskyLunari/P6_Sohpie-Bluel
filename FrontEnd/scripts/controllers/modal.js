@@ -93,7 +93,7 @@ imgUpload.addEventListener("change", (e) => {
     if (file) {
 
         // Check if file type is JPG or PNG
-        if (!file.type.startsWith('image/')) {
+        if (file.type !== "image/png" && file.type !== "image/jpeg") {
             alert("Veuillez sélectionner un fichier image de type JPG ou PNG.");
             imgUpload.value = "";
             return;
