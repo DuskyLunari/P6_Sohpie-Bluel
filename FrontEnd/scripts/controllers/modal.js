@@ -82,6 +82,16 @@ function switchModal() {
     }
 }
 
+// close modal and putting it back to first state if not on it
+dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) {
+        dialog.close();
+        if (modalGallery.classList.contains("hidden")) {
+            switchModal();
+        }
+    }
+});
+
 // Modal 2 img file preview handler
 const imgPreview = document.getElementById("img-preview");
 const iconImage = document.getElementById("img-preview-modal");
@@ -123,6 +133,10 @@ const title = document.getElementById("title");
 const option = document.getElementById("id-select");
 const uploadImg = document.getElementById("modal-send");
 
+title.addEventListener("input", checkFields);
+option.addEventListener("change", checkFields);
+imgUpload.addEventListener("change", checkFields);
+
 function checkFields() {
     // Check if all fields are filled before allowing to send
     if (title.value !== "" && option.selectedIndex !== 0 && imgUpload.files.length !== 0) {
@@ -132,40 +146,36 @@ function checkFields() {
     }
 }
 
-title.addEventListener("input", checkFields);
-option.addEventListener("change", checkFields);
-imgUpload.addEventListener("change", checkFields);
-
-
 // Modal 2 sending all fields to add to the API
 uploadImg.addEventListener("click", async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("title", title.value);
-    formData.append("category", option.value);
-    formData.append("image", imgUpload.files[0]);
+        const formData = new FormData();
+        formData.append("title", title.value);
+        formData.append("category", option.value);
+        formData.append("image", imgUpload.files[0]);
 
+        const response = await addWork(formData);
 
-    const response = await addWork(formData);
+        const contentType = response.headers.get('content-type');
 
-    const contentType = response.headers.get('content-type');
-    let responseBody;
+        if (contentType && contentType.includes('application/json')) {
+            let responseBody = await response.json();
+        } else {
+            return;
+        }
 
-    if (contentType && contentType.includes('application/json')) {
-        responseBody = await response.json();
+        if (response.status === 201) {
+            title.value = "";
+            option.value = "";
+            imgPreview.src = "";
+            imgPreview.classList.add("hidden");
+            iconImage.classList.remove("hidden");
+            imgcontainer.classList.remove("hidden");
+            checkFields();
+            switchModal();
+            dialog.close();
     } else {
-        return;
-    }
-
-    if (response.status === 201) {
-        title.value = "";
-        option.value = "";
-        imgPreview.src = "";
-        imgPreview.classList.add("hidden");
-        iconImage.classList.remove("hidden");
-
-    } else {
-        console.error('Failed to add work');
+        alert('Failed to add work');
     }
 });
