@@ -36,8 +36,5 @@ export async function addWork(formData) {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
         body: formData
     });
-
-    // debugging
-    console.log('API Response:', responseAddWork);
     return responseAddWork;
 }
