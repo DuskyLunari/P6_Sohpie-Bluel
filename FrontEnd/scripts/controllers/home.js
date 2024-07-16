@@ -1,7 +1,7 @@
 import { getFilters, getWorks } from "../services/api.js";
 
 export const works = await getWorks();
-const filters = await getFilters();
+export const filters = await getFilters();
 const categoriesContainer = document.querySelector(".filters");
 
 // add element on first position of the array
@@ -62,7 +62,7 @@ function filtersDisplay(filtersBtnDisplay) {
 }
 
 // handles the gallery display for the image & caption
-function galleryDisplay(worksDisplay) {
+ export function galleryDisplay(worksDisplay) {
     const galleryContainer = document.querySelector(".gallery");
     // empty gallery before displaying again
     galleryContainer.innerHTML = "";

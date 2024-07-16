@@ -1,10 +1,11 @@
 import { deleteWork, addWork } from "../services/api.js";
-import { works } from "./home.js";
+import { works, galleryDisplay, filters } from "./home.js";
 
 const modalBtn = document.getElementById("modal-btn");
 const modalBtnClose = document.getElementById("close-modal");
 const dialog = document.getElementById("modal");
 
+/* ----- DIALOG MANAGEMENT ------ */
 // Opening and closing modal 1
 modalBtn.addEventListener("click", (e) => {
     modalGalleryDisplay(works);
@@ -15,6 +16,50 @@ modalBtnClose.addEventListener("click", (e) => {
     dialog.close();
 });
 
+// close modal and putting it back to first state if clicking outside of area
+// reset to first modal state if not on it
+dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) {
+        dialog.close();
+        if (modalGallery.classList.contains("hidden")) {
+            switchModal();
+        }
+    }
+});
+
+// Swap between modal 1 & modal 2
+const modalGallery = document.getElementById("gallery-modal");
+const modalAddImg = document.getElementById("image-modal");
+const goModalImage = document.getElementById("switch-modal");
+
+goModalImage.addEventListener("click", (e) => {
+    switchModal();
+})
+
+const goBackModal = document.getElementById("back-initial-modal");
+goBackModal.addEventListener("click", (e) => {
+    switchModal();
+})
+
+// Close modal 2
+const modal2BtnClose = document.getElementById("close-modal2");
+modal2BtnClose.addEventListener("click", (e) => {
+    // Setting it back to modal 1 for next interaction
+    switchModal();
+    dialog.close();
+});
+
+function switchModal() {
+    if (!modalGallery.classList.contains("hidden")) {
+        modalGallery.classList.add("hidden");
+        modalAddImg.classList.remove("hidden");
+    } else {
+        modalGallery.classList.remove("hidden");
+        modalAddImg.classList.add("hidden");
+    }
+}
+
+/* ----- MODAL SECTION 1 ------ */
 // Handling modal 1 gallery display & delete function in trash-bin icon
 function modalGalleryDisplay(worksContent) {
     const galleryModal = document.getElementById("gallery-content");
@@ -50,48 +95,7 @@ function modalGalleryDisplay(worksContent) {
     }
 }
 
-// Swap between modal 1 & modal 2
-const modalGallery = document.getElementById("gallery-modal");
-const modalAddImg = document.getElementById("image-modal");
-const goModalImage = document.getElementById("switch-modal");
-
-goModalImage.addEventListener("click", (e) => {
-    switchModal();
-})
-
-const goBackModal = document.getElementById("back-initial-modal");
-goBackModal.addEventListener("click", (e) => {
-    switchModal();
-})
-
-// Close modal 2
-const modal2BtnClose = document.getElementById("close-modal2");
-modal2BtnClose.addEventListener("click", (e) => {
-    // Setting it back to modal 1 for next interaction
-    switchModal();
-    dialog.close();
-});
-
-function switchModal() {
-    if (!modalGallery.classList.contains("hidden")) {
-        modalGallery.classList.add("hidden");
-        modalAddImg.classList.remove("hidden");
-    } else {
-        modalGallery.classList.remove("hidden");
-        modalAddImg.classList.add("hidden");
-    }
-}
-
-// close modal and putting it back to first state if not on it
-dialog.addEventListener("click", (event) => {
-    if (event.target === dialog) {
-        dialog.close();
-        if (modalGallery.classList.contains("hidden")) {
-            switchModal();
-        }
-    }
-});
-
+/* ----- MODAL SECTION 2 ------ */
 // Modal 2 img file preview handler
 const imgPreview = document.getElementById("img-preview");
 const iconImage = document.getElementById("img-preview-modal");
@@ -143,6 +147,21 @@ function checkFields() {
         uploadImg.removeAttribute("disabled");
     } else {
         uploadImg.setAttribute("disabled", true);
+    }
+}
+
+// Modal 2 form > select generation from API
+formOptions(filters);
+function formOptions(filters) {
+    for (let i = 0; i < filters.length; i++) {
+        const optionSelect = document.createElement("option");
+        if ( i == 0) {
+            option.value = filters[0].name = "";
+        }
+        console.log("filter " + i);
+        optionSelect.value = i;
+        optionSelect.innerText = filters[i].name; 
+        option.append(optionSelect);
     }
 }
 
