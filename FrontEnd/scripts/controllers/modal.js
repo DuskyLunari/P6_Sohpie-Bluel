@@ -87,6 +87,7 @@ function modalGalleryDisplay(worksContent) {
                     modalContainer.remove();
                     const workGallery = document.getElementById("work-gallery-" + worksContent[i].id);
                     workGallery.remove();
+                    worksContent.splice(i, 1);
                 } catch (error) {
                     alert("Une erreur est survenue");
                 }
@@ -155,12 +156,12 @@ formOptions(filters);
 function formOptions(filters) {
     for (let i = 0; i < filters.length; i++) {
         const optionSelect = document.createElement("option");
-        if ( i == 0) {
+        if (i == 0) {
             option.value = filters[0].name = "";
         }
         console.log("filter " + i);
         optionSelect.value = i;
-        optionSelect.innerText = filters[i].name; 
+        optionSelect.innerText = filters[i].name;
         option.append(optionSelect);
     }
 }
@@ -169,31 +170,27 @@ function formOptions(filters) {
 uploadImg.addEventListener("click", async (e) => {
     e.preventDefault();
 
-        const formData = new FormData();
-        formData.append("title", title.value);
-        formData.append("category", option.value);
-        formData.append("image", imgUpload.files[0]);
+    const formData = new FormData();
+    formData.append("title", title.value);
+    formData.append("category", Number(option.value));
+    formData.append("image", imgUpload.files[0]);
 
-        const response = await addWork(formData);
+    console.log(formData.get("image"))
+    const response = await addWork(formData);
 
-        const contentType = response.headers.get('content-type');
-
-        if (contentType && contentType.includes('application/json')) {
-            let responseBody = await response.json();
-        } else {
-            return;
-        }
-
-        if (response.status === 201) {
-            title.value = "";
-            option.value = "";
-            imgPreview.src = "";
-            imgPreview.classList.add("hidden");
-            iconImage.classList.remove("hidden");
-            imgcontainer.classList.remove("hidden");
-            checkFields();
-            switchModal();
-            dialog.close();
+    if (response.status === 201) {
+        title.value = "";
+        option.value = "";
+        imgPreview.src = "";
+        imgPreview.classList.add("hidden");
+        iconImage.classList.remove("hidden");
+        imgcontainer.classList.remove("hidden");
+        checkFields();
+        switchModal();
+        dialog.close();
+        const newWork = await response.json();
+        works.push(newWork);
+        galleryDisplay(works);
     } else {
         alert('Failed to add work');
     }

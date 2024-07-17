@@ -33,7 +33,9 @@ export async function deleteWork(id) {
 export async function addWork(formData) {
     const responseAddWork = await fetch("http://localhost:5678/api/works", {
         method: "POST",
-        headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+        headers: { 
+            Authorization: "Bearer " + localStorage.getItem("token"),
+         },
         body: formData
     });
     return responseAddWork;
